@@ -1,24 +1,67 @@
-import React from 'react'
+"use client";
+import React, { useEffect, useRef } from 'react'
 import Title from './Title'
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+
+if (typeof window !== 'undefined') {
+    gsap.registerPlugin(ScrollTrigger);
+}
 
 const Process = () => {
 
     const data = [
         {
-            icon: '/images/brain.svg', title: 'Understand the Problem', description: 'We study the business, users, and constraints to identify the real problem.',
+            shape: '/images/shape1.svg', icon: '/images/brain.svg', title: 'Understand the Problem', description: 'We study the business, users, and constraints to identify the real problem.',
         }, {
             icon: '/images/light.svg', title: 'Define the Direction', description: 'We align goals, priorities, and scope to set a clear product direction.',
         }, {
-            icon: '/images/ui-ux.svg', title: 'Design the Experience', description: 'We design usable, scalable experiences aligned with strategy.',
+            shape: '/images/shape2.svg', icon: '/images/ui-ux.svg', title: 'Design the Experience', description: 'We design usable, scalable experiences aligned with strategy.',
         }, {
-            icon: '/images/qa.svg', title: 'Test and Iterate', description: 'We test solutions with users and iterate to improve performance.',
+            shape: '/images/shape3.svg', icon: '/images/qa.svg', title: 'Test and Iterate', description: 'We test solutions with users and iterate to improve performance.',
         }, {
             icon: '/images/chart.svg', title: 'Ship and Grow', description: 'Launch, learn, and continuously improve.',
         }
     ]
 
+    const sectionRef = useRef(null);
+
+    useEffect(() => {
+        let ctx = gsap.context(() => {
+            gsap.utils.toArray(".process_card").forEach((card) => {
+                gsap.from(card, {
+                    y: 50,
+                    opacity: 0,
+                    duration: 0.8,
+                    stagger: 0.2,
+                    ease: "power2.out",
+                    scrollTrigger: {
+                        trigger: card,
+                        start: "top 85%",
+                    }
+                });
+            });
+
+            gsap.utils.toArray(".shape").forEach((shape) => {
+                gsap.from(shape, {
+                    scaleY: 0,
+                    opacity: 0,
+                    duration: 0.8,
+                    stagger: 0.2,
+                    ease: "power2.out",
+                    scrollTrigger: {
+                        trigger: shape,
+                        start: "top 85%",
+                    }
+                });
+            });
+        }, sectionRef);
+
+        return () => ctx.revert();
+    }, []);
+
     return (
-        <section className="py-spc overflow-hidden">
+        <section ref={sectionRef} className="py-spc overflow-hidden">
             <div className="container relative">
                 <Title classes="text-center" text={`How We Create <i>Value</i>`} description="A structured approach that turns complex problems into clear, scalable solutions." />
                 <div
@@ -37,12 +80,15 @@ const Process = () => {
                                         {item.description}
                                     </p>
                                 </div>
+                                {
+                                    item.shape && <div className='shape origin-top'><img src={item.shape} alt="" /></div>
+                                }
                             </div>
                         ))
                     }
                 </div>
                 <div className="absolute clip-1 bg-brand/5 size-[30vw] inset-0 m-auto -z-2"></div>
-                <div className="absolute inset-0 blur-3xl -z-1"></div>
+                <div className="absolute inset-0 backdrop-blur-3xl -z-1"></div>
             </div>
         </section>
     )

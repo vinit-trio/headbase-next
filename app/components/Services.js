@@ -78,7 +78,7 @@ const Services = () => {
                 { text: 'Next.js', color: 'green' },
                 { text: 'React.js', color: 'purple' },
                 { text: 'HTML5', color: 'blue' },
-                { text: 'CSS3', color: 'yelllow' },
+                { text: 'CSS3', color: 'yellow' },
                 { text: 'Payload', color: 'red' },
             ]
         },
@@ -102,7 +102,8 @@ const Services = () => {
                     {
                         data.map((item, i) => (
                             <div key={i}
-                                className="service-card rounded-xl lg:rounded-3xl p-16 lg:p-28 border border-border shadow-1 flex flex-col gap-16 xl:gap-32 hover:border-brand transition-colors">
+                                className="service-card rounded-xl lg:rounded-3xl p-16 lg:p-28 border border-border shadow-1 flex flex-col gap-16 xl:gap-32 hover:border-brand 
+                                transition-colors">
                                 <div className="border border-border p-10 sm:p-12 rounded-lg lg:rounded-2xl w-fit shadow-1">
                                     <img className="w-32 sm:w-40" src={item.icon} alt="" />
                                 </div>

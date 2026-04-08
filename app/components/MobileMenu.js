@@ -30,6 +30,7 @@ const MobileMenu = ({ isOpen, onClose }) => {
         })
         .to(panelRef.current, {
             x: "0%",
+            visibility: "visible",
             duration: 0.5,
             ease: "power3.out",
         }, "<0.1")

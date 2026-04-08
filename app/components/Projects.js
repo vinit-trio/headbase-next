@@ -1,9 +1,30 @@
-import React from 'react'
+import React, { useState, useEffect, useRef } from 'react'
+import { createPortal } from 'react-dom'
 import Title from './Title'
 import Button from './Button'
 import { ArrowRight } from 'lucide-react'
 
 const Projects = () => {
+    const cursorRef = useRef(null);
+    const [isHovering, setIsHovering] = useState(false);
+    const [isMounted, setIsMounted] = useState(false);
+
+    useEffect(() => {
+        // Mark as mounted to safely use createPortal (prevents SSR hydration errors)
+        setIsMounted(true);
+
+        const updateMousePosition = (e) => {
+            if (cursorRef.current) {
+                cursorRef.current.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0) translate(-50%, -50%)`;
+            }
+        };
+
+        window.addEventListener('mousemove', updateMousePosition);
+
+        return () => {
+            window.removeEventListener('mousemove', updateMousePosition);
+        };
+    }, []);
 
     const projects = [
         {
@@ -49,38 +70,48 @@ const Projects = () => {
     ]
 
     return (
-        <section className="py-spc">
+        <section className="py-spc relative">
+
+            {/* Teleport the cursor directly to the document body using createPortal */}
+            {isMounted && createPortal(
+                <div
+                    ref={cursorRef}
+                    className="fixed top-0 left-0 z-9999 pointer-events-none"
+                    style={{willChange: 'transform',transition: 'none'}}
+                >
+                    <div
+                        className={`flex items-center justify-center size-96 rounded-full bg-black/90 text-white text-[12px] font-medium backdrop-blur-sm transition-all duration-300 
+                            uppercase ${isHovering ? 'opacity-100 scale-100' : 'opacity-0 scale-0'}`} >
+                        Read more
+                    </div>
+                </div>,
+                document.body
+            )}
+
             <div className="container">
                 <Title text={`Work That <i>Delivers Results</i>`} description="Real client challenges, clear solutions, and the impact created through design and technology." />
+
                 <div className="grid md:grid-cols-2 gap-x-24 xl:gap-x-48 gap-y-40 xl:gap-y-80 mb-40 xl:mb-80">
-                    {
-                        projects.map((project, i) => (
-                            <div key={i} className="group relative flex flex-col gap-8 3xl:gap-16">
-                                <a href="work-details.html" className="absolute inset-0 z-1"><span className="sr-only">Project
-                                    Details</span></a>
-                                <div className="image relative rounded-xl overflow-hidden aspect-[1.63/1] mb-4 xl:mb-8 group">
-                                    <img src={project.image} alt=""
-                                        className="absolute size-full inset-0 object-cover" />
-                                    <div
-                                        className="glass_effect absolute h-25 scale-200 w-full top-1/2 -translate-y-1/2 -left-full rotate-45 duration-1000 bg-white/30 group-hover:left-full!">
-                                    </div>
+                    {projects.map((project, i) => (
+                        <div key={i} className="project_card group relative flex flex-col gap-8 3xl:gap-16" onMouseEnter={() => setIsHovering(true)} onMouseLeave={() => setIsHovering(false)}>
+                            <a href="work-details.html" className="absolute inset-0 z-1"><span className="sr-only">Project Details</span></a>
+                            <div className="image relative rounded-xl overflow-hidden aspect-[1.63/1] mb-4 xl:mb-8 group">
+                                <img src={project.image} alt="" className="absolute size-full inset-0 object-cover" />
+                                <div
+                                    className="glass_effect absolute h-25 scale-200 w-full top-1/2 -translate-y-1/2 -left-full rotate-45 duration-1000 bg-white/30 group-hover:left-full!">
                                 </div>
-                                <div className="flex gap-8 mb-6 xl:mb-12 flex-wrap">
-                                    {
-                                        project.badges.map((badge, i) => (
-                                            <div key={i} className={`badge ${badge.color}`}>{badge.text}</div>
-                                        ))
-                                    }
-                                </div>
-                                <h3 className="text-xl xl:text-2xl text-black">{project.title}</h3>
-                                <p>{project.description}</p>
                             </div>
-                        ))
-                    }
+                            <div className="flex gap-8 mb-6 xl:mb-12 flex-wrap">
+                                {project.badges.map((badge, j) => (
+                                    <div key={j} className={`badge ${badge.color}`}>{badge.text}</div>
+                                ))}
+                            </div>
+                            <h3 className="text-xl xl:text-2xl text-black">{project.title}</h3>
+                            <p>{project.description}</p>
+                        </div>
+                    ))}
                 </div>
-                <Button classes='mx-auto w-fit' text='View More Projects' variant='primary'>
-                    <ArrowRight />
-                </Button>
+                <Button classes='mx-auto w-fit' text='View More Projects' variant='primary'><ArrowRight /></Button>
             </div>
         </section>
     )

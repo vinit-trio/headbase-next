@@ -301,7 +301,7 @@
     }
 
     .mobile-menu-panel {
-        @apply fixed top-0 right-0 z-9999999 h-full flex flex-col;
+        @apply fixed top-0 right-0 z-9999999 h-full flex flex-col invisible;
         width: min(85vw, 420px);
         transform: translateX(100%);
         background: #fff;
@@ -418,6 +418,11 @@ html {
     }
 }
 
+::selection {
+  color: #fff;
+  background-color: rgba(72, 72, 255, .9);
+} 
+
 select,
 ::picker(select) {
     appearance: base-select;
@@ -527,17 +532,18 @@ select:has(option:disabled:checked),
     position: absolute;
     left: calc(100% - 10px);
     bottom: -6px;
-    width: 15px;
+    width: 0;
     height: 2px;
     opacity: 0;
     background-color: var(--color-brand);
-    transition: var(--transition-slow);
+    transition: var(--transition-slow); 
 }
 
 .link.active::after,
 .link:hover::after {
     opacity: 1;
     left: 0;
+    width: 15px;
 }
 
 .wcu_card:nth-child(2),
@@ -743,22 +749,19 @@ html.lenis body {
         @apply -ml-590 relative
     }
 
-    .process_card:nth-child(1)::after {
-        content: url('/images/shape1.svg');
+    .process_card:nth-child(1) .shape {
         position: absolute;
         top: 60px;
         right: -70px;
     }
 
-    .process_card:nth-child(3)::after {
-        content: url('/images/shape2.svg');
+    .process_card:nth-child(3) .shape {
         position: absolute;
         top: 20px;
         left: -150px;
     }
 
-    .process_card:nth-child(4)::after {
-        content: url('/images/shape3.svg');
+    .process_card:nth-child(4) .shape {
         position: absolute;
         top: 35px;
         left: -200px;

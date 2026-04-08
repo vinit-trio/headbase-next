@@ -1,9 +1,8 @@
 'use client'
-import React from 'react';
+import { useEffect, useRef } from 'react';
 import Title from './Title';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import 'swiper/css';
-import { Pagination } from 'swiper/modules';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import gsap from 'gsap';
 
 const Industries = () => {
 
@@ -28,39 +27,64 @@ const Industries = () => {
         }
     ]
 
+    if (typeof window !== 'undefined') {
+        gsap.registerPlugin(ScrollTrigger);
+    }
+
+    const sectionRef = useRef(null);
+    const sliderRef = useRef(null);
+
+    useEffect(() => {
+        let ctx = gsap.context(() => {
+            const getScrollAmount = () => {
+                let sliderWidth = sliderRef.current.scrollWidth;
+                return -(sliderWidth - window.innerWidth);
+            };
+
+            const tween = gsap.to(sliderRef.current, {
+                x: getScrollAmount,
+                ease: "none",
+            });
+
+            ScrollTrigger.create({
+                trigger: sectionRef.current,
+                start: "top top",
+                end: () => `+=${sliderRef.current.scrollWidth}`,
+                pin: true,
+                animation: tween,
+                scrub: 1,
+                invalidateOnRefresh: true,
+            });
+        }, sectionRef);
+
+        return () => ctx.revert();
+    }, []);
+
     return (
-        <section className="py-spc bg-black text-white">
+        <section ref={sectionRef} className="py-130 min-h-screen flex flex-col justify-center bg-black text-white overflow-hidden">
             <div className="container">
                 <Title classes='white' text={`<i>Industries</i>`} description="We work across high-impact industries, combining deep domain knowledge with cutting-edge design." />
             </div>
-            <div
-                className="container 3xl:max-w-full 3xl:p-0 mask-[linear-gradient(90deg,#000_80%,transparent_calc(100%-16px))] 3xl:mask-none">
-                <Swiper
-                    slidesPerView={1.2} spaceBetween={16} loop={true} breakpoints={{
-                        768: { slidesPerView: 2.2, spaceBetween: 24, },
-                        1400: { slidesPerView: 3.2, spaceBetween: 32, },
-                    }}
-                    modules={[Pagination]} className="3xl:pl-[calc((100%-1680px)/2)]!">
-                    {
-                        industries.map((industry, index) => (
-                            <SwiperSlide key={index} className='h-auto! pb-4 pr-4'>
-                                <div
-                                    className="h-full rounded-xl lg:rounded-3xl p-16 lg:p-28 bg-gray flex flex-col gap-16 xl:gap-32 border border-gray hover:border-border-2">
-                                    <div className="border border-border-2 p-10 sm:p-12 rounded-lg lg:rounded-2xl w-fit shadow-2 bg-black">
-                                        <img className="w-32 sm:w-40" src={industry.image} alt={industry.name} />
-                                    </div>
-                                    <div className="flex flex-col gap-8 xl:gap-16">
-                                        <h3 className="text-xl lg:text-2xl font-medium">{industry.name}</h3>
-                                        <p className="opacity-80">{industry.description}</p>
-                                    </div>
+            <div className="container">
+                <div className="flex mt-12 lg:mt-20">
+                    <div ref={sliderRef} className="slider flex gap-16 xl:gap-32 pr-[calc((100vw-1600px)/2)]">
+                        {industries.map((item, index) => (
+                            <div key={index} className="w-[80vw] md:w-[40vw] lg:w-[30vw] shrink-0 rounded-xl lg:rounded-3xl p-16 lg:p-28 bg-gray flex flex-col gap-16 xl:gap-32 border
+                         border-gray hover:border-border-2">
+                                <div className="border border-border-2 p-10 sm:p-12 rounded-lg lg:rounded-2xl w-fit shadow-2 bg-black">
+                                    <img className="w-32 sm:w-40" src={item.image} alt={item.name} />
                                 </div>
-                            </SwiperSlide>
-                        ))
-                    }
-                </Swiper>
+                                <div className="flex flex-col gap-8 xl:gap-16">
+                                    <h3 className="text-xl lg:text-2xl font-medium">{item.name}</h3>
+                                    <p className="opacity-80">{item.description}</p>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
             </div>
         </section>
-    )
-}
+    );
+};
 
-export default Industries
+export default Industries;

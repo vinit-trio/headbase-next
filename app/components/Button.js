@@ -1,8 +1,6 @@
-import React, { Children } from 'react'
-
-const Button = ({ children, text, variant, classes }) => {
+const Button = ({ children, text, variant, classes, link }) => {
   return (
-    <a href="#" className={`${variant === 'primary' ? 'btn_blue' : 'btn_transparent'} btn ${classes}`}>
+    <a href={link} className={`${variant === 'primary' ? 'btn_blue' : 'btn_transparent'} btn ${classes}`}>
         <span>{text}</span>
         {children}
     </a>

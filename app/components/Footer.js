@@ -1,9 +1,38 @@
-import React from 'react'
+'use client'
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import React, { useEffect, useRef } from 'react'
+
+if (typeof window !== 'undefined') {
+    gsap.registerPlugin(ScrollTrigger);
+}
 
 const Footer = () => {
+
+    const footerRef = useRef();
+
+    useEffect(() => {
+        let ctx = gsap.context(() => {
+            gsap.from(footerRef.current, {
+                y: 200,
+                opacity: 0,
+                duration: 0.8,
+                ease: "power2.out",
+                scrollTrigger: {
+                    trigger: footerRef.current,
+                    start: "top 100%",
+                }
+            });
+        }, footerRef);
+
+        return () => ctx.revert();
+    }, []);
+
+    const currentYear = new Date().getFullYear();
+
     return (
         <footer className="relative py-spc border-t border-black/10 overflow-hidden">
-            <div className="container">
+            <div className="container" ref={footerRef}>
                 <div className="flex flex-wrap 3xl:flex-nowrap gap-y-spc">
                     <div className='pr-40 last:p-0 w-full xl:w-4/12 2xl:w-4/12 3xl:w-4/12'>
                         <div className="mb-32 xl:mb-64">
@@ -42,8 +71,7 @@ const Footer = () => {
                     </div>
                     <div className="pr-40 last:p-0 w-full md:w-6/12 xl:w-4/12 2xl:w-4/12 3xl:w-3/12 flex flex-col gap-25 md:gap-35 3xl:gap-74">
                         <p>
-                            SH-403 Shiven Shoppers, Adajan DN,
-                            Surat – 395009, Gujarat, India
+                            SH-403 Shiven Shoppers, Adajan DN, Surat - 395009, Gujarat, India
                         </p>
                         <ul className="flex gap-8 xl:gap-16">
                             <li>
@@ -60,7 +88,7 @@ const Footer = () => {
                             </li>
                         </ul>
                         <a href="mailto:hr@headbase.com" className="text-blue ul_effect w-fit">hr@headbase.com</a>
-                        <p>&copy; <span id="currentYear">2026</span>-Headbase. All Rights Reserved</p>
+                        <p>&copy; <span>{currentYear}</span>-Headbase. All Rights Reserved</p>
                     </div>
                 </div>
             </div>

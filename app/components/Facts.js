@@ -10,22 +10,22 @@ if (typeof window !== 'undefined') {
 
 const facts = [
     {
-        number: '250',
+        number: 250,
         text: 'Projects Delivered',
         color: 'text-black'
     },
     {
-        number: '7',
+        number: 7,
         text: 'Years of Excellence',
         color: 'text-black'
     },
     {
-        number: '98',
+        number: 98,
         text: 'Client satisfaction',
         color: 'text-blue'
     },
     {
-        number: '120',
+        number: 120,
         text: 'Happy Clients',
         color: 'text-black'
     }

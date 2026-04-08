@@ -1,6 +1,8 @@
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import Title from './Title'
 import Image from 'next/image'
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 const cards = [
     {
@@ -29,8 +31,42 @@ const counts = [
 ]
 
 const Mission = () => {
+
+    if (typeof window !== 'undefined') {
+        gsap.registerPlugin(ScrollTrigger);
+    }
+
+    const sectionRef = useRef(null);
+    const numRefs = useRef([]);
+
+    useEffect(() => {
+        let ctx = gsap.context(() => {
+            numRefs.current.forEach((el, index) => {
+                if (el) {
+                    const targetValue = parseInt(counts[index].count, 10);
+
+                    gsap.fromTo(el,
+                        { textContent: 0 },
+                        {
+                            textContent: targetValue,
+                            duration: 2,
+                            ease: "power2.out",
+                            snap: { textContent: 1 },
+                            scrollTrigger: {
+                                trigger: el,
+                                start: "top 85%",
+                            }
+                        }
+                    );
+                }
+            });
+        }, sectionRef);
+
+        return () => ctx.revert();
+    }, []);
+
     return (
-        <section className="py-spc">
+        <section ref={sectionRef} className="py-spc">
             <div className="container">
                 <Title text={`Whether you’re a startup, an <i>Established business</i>, or <i>an Enterprise</i>, we’re here to help you reach new heights online.`} />
                 <div className="grid xl:grid-cols-2 gap-32 2xl:gap-64 items-center">
@@ -45,19 +81,17 @@ const Mission = () => {
                             {cards.map((item, i) => {
                                 return (
                                     <div key={i} className="flex flex-col gap-8 xl:gap-16">
-                                        <div>
-                                            <h3 className="text-40 font-semibold text-black">{item.title}</h3>
-                                        </div>
+                                        <div><h3 className="text-40 font-semibold text-black">{item.title}</h3></div>
                                         <p>{item.description}</p>
                                     </div>
                                 )
                             })}
                         </div>
                         <div className="grid grid-cols-2 gap-32">
-                            {counts.map((item, i) => {
+                            {counts.map((item, index) => {
                                 return (
-                                    <div key={i} className="flex flex-col gap-8 xl:gap-16">
-                                        <span className={`text-96 font-bold text-${item.color}`}><span>{item.count}</span>{item.suffix}</span>
+                                    <div key={index} className="flex flex-col gap-8 xl:gap-16">
+                                        <span className={`text-96 font-bold text-${item.color}`}><span ref={el => numRefs.current[index] = el}>0</span>{item.suffix}</span>
                                         <p>{item.title}</p>
                                     </div>
                                 )

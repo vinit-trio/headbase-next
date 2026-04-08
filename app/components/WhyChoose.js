@@ -1,5 +1,12 @@
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import Title from './Title'
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+
+if (typeof window !== 'undefined') {
+    gsap.registerPlugin(ScrollTrigger);
+}
 
 const cards = [
     {
@@ -35,8 +42,66 @@ const cards = [
 ]
 
 const WhyChoose = () => {
+    const containerRef = useRef(null);
+
+    useEffect(() => {
+        gsap.registerPlugin(ScrollTrigger);
+
+        const ctx = gsap.context(() => {
+            gsap.utils.toArray(".wcu_card").forEach((card) => {
+                gsap.from(card, {
+                    opacity: 0,
+                    x: 200,
+                    ease: "power4.out",
+                    scrollTrigger: {
+                        trigger: card,
+                        start: "top 80%",
+                        toggleActions: "play none none none",
+                    },
+                });
+            });
+        }, containerRef);
+
+        return () => ctx.revert(); // cleanup (important)
+    }, []);
+
+    useEffect(() => {
+        gsap.registerPlugin(ScrollTrigger);
+
+        const ctx = gsap.context(() => {
+            const paths = gsap.utils.toArray(".abstract_svg path");
+
+            paths.forEach((path, i) => {
+                const length = path.getTotalLength();
+
+                // Guard: skip if SVG not yet rendered
+                if (!length) return;
+
+                gsap.set(path, {
+                    strokeDasharray: length,
+                    strokeDashoffset: length,
+                    fill: "none",
+                });
+
+                gsap.to(path, {
+                    strokeDashoffset: 0,
+                    duration: 2,
+                    delay: i * 0.4,
+                    ease: "power4.out",
+                    scrollTrigger: {
+                        trigger: containerRef.current,
+                        start: "top 80%",
+                        toggleActions: "play none none none",
+                    },
+                });
+            });
+        }, containerRef);
+
+        return () => ctx.revert();
+    }, []);
+
     return (
-        <section className="py-spc pl-16 sm:pl-32 bg-black text-white overflow-x-hidden">
+        <section ref={containerRef} className="py-spc pl-16 sm:pl-32 bg-black text-white overflow-x-hidden">
             <div className="pr-0 pl-[calc((100%-1680px)/2)] flex flex-col lg:flex-row items-center">
                 <div className="w-full lg:w-1/3 xl:w-2/5 pr-16">
                     <Title classes="white" text={`Why <i>Choose Us</i>`}
