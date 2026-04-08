@@ -1,5 +1,8 @@
+import BackToTop from "./components/BackToTop";
+import ClickBurst from "./components/ClickBurst";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
+import LenisProvider from "./components/LenisProvider";
 import "./globals.css";
 
 export const metadata = {
@@ -11,11 +14,15 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
-        <Header />
-        <main>
-          {children}
-        </main>
-        <Footer />
+        <LenisProvider>
+          <Header />
+          <main>
+            {children}
+          </main>
+          <Footer />
+          <BackToTop />
+        </LenisProvider>
+        <ClickBurst />
       </body>
     </html>
   );

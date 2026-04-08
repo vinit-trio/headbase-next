@@ -1,5 +1,5 @@
 import React from 'react'
-import SubTitle from './SubTitle'
+import Title from './Title'
 
 const Process = () => {
 
@@ -20,7 +20,7 @@ const Process = () => {
     return (
         <section className="py-spc overflow-hidden">
             <div className="container relative">
-                <SubTitle classes="text-center" text={`How We Create <i>Value</i>`} description="A structured approach that turns complex problems into clear, scalable solutions." />
+                <Title classes="text-center" text={`How We Create <i>Value</i>`} description="A structured approach that turns complex problems into clear, scalable solutions." />
                 <div
                     className="our_process grid lg:grid-cols-2 xl:grid-cols-1 gap-32 xl:gap-88 xl:place-items-center pt-50">
                     {

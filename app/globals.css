@@ -65,7 +65,7 @@
     --text-96: clamp(2.1875rem, 1.425rem + 3.8125vw, 6rem);
     --text-96--line-height: 1.1;
 
-    --text-120: clamp(2.5rem, 1.5rem + 5vw, 7.5rem);
+    --text-120: clamp(2.1875rem, 1.125rem + 5.3125vw, 7.5rem);
     --text-120--line-height: 1.1;
 
     --shadow-black: 4px 4px 0 0 #111;
@@ -90,22 +90,22 @@
     }
 
     .btn {
-        @apply py-12 px-24 rounded-lg flex items-center gap-8 text-lg transition-all duration-300
+        @apply py-12 px-24 rounded-lg flex items-center gap-8 text-lg transition-all duration-300 w-fit mx-auto
     }
 
     .btn_blue {
-        @apply bg-brand hover:bg-blue text-white
+        @apply bg-blue hover:bg-brand text-white
     }
 
     .btn_transparent {
-        @apply bg-transparent text-brand hover:text-blue
+        @apply bg-transparent text-blue hover:text-brand
     }
 
     .hero_title {
         @apply text-120 font-bold text-black
     }
 
-    .hero_title i{
+    .hero_title i {
         @apply text-blue font-semibold
     }
 
@@ -167,9 +167,8 @@
 }
 
 @layer base {
-
     html {
-        @apply scroll-smooth
+        @apply scroll-auto
     }
 
     body {
@@ -180,47 +179,24 @@
         @apply cursor-pointer
     }
 
-    #hero, #hero * {
-        cursor: none;
+    header {
+        @apply transition-all duration-1000 sticky top-0 py-20 sm:py-34 text-text opacity-0 
     }
 
-    .simulated-cursor::after {
-        content: '';
-        position: absolute;
-        bottom: 100%;
-        right: 100%;
-        width: 24px;
-        height: 24px;
-        background-image: url('/images/cursor.svg');
-        background-size: cover;
-        filter: brightness(0) saturate(100%) invert(46%) sepia(98%) saturate(2788%) hue-rotate(1deg) brightness(103%) contrast(106%);
+    section{
+        @apply opacity-0 
     }
 
-    .simulated-cursor.bg-blue-500:after {
-        filter: brightness(0) saturate(100%) invert(43%) sepia(99%) saturate(2869%) hue-rotate(203deg) brightness(100%) contrast(105%);
+    header.scroll_down, header.scroll_up {
+        @apply bg-white/85 backdrop-blur-sm z-99999
     }
 
-    .simulated-cursor {
-        @apply hidden xl:block
-    }
+    header.scroll_down {
+        @apply -top-105
+    } 
 
-    @media (any-pointer: coarse) and (any-hover: none) {
-        .own_cursor {
-            display: none !important;
-        }
-    }
-
-    .overlay {
-        transform: translateX(100%);
-        transition: transform 0.3s ease;
-    }
-
-    .overlay.active {
-        transform: translateX(0);
-    }
-
-    .header_sticked .header_bg {
-        @apply backdrop-blur-lg
+    .hero, .hero *{
+        @apply lg:cursor-none!
     }
 
     .accordion-item .icon {
@@ -282,6 +258,163 @@
 
     .mixed_content ul {
         @apply flex flex-col gap-12 xl:gap-24
+    }
+
+    /* ------------------- */
+    /* Hamburger Icon */
+
+    .hamburger {
+        @apply relative z-99999 cursor-pointer bg-transparent border-none p-8;
+    }
+
+    .hamburger-box {
+        @apply relative flex flex-col justify-center items-center w-28 h-20;
+    }
+
+    .hamburger-line {
+        @apply absolute h-2 w-full bg-black rounded-full;
+        transition: all 0.35s cubic-bezier(0.77, 0, 0.18, 1);
+    }
+
+    .hamburger-line--1 {
+        top: 0;
+    }
+
+    .hamburger-line--2 {
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+    .hamburger-line--3 {
+        bottom: 0; 
+    }
+
+    /* ------------------- */
+    /* Mobile Menu */
+
+    .mobile-menu-overlay {
+        @apply fixed inset-0 z-999999;
+        background: rgba(0, 0, 71, 0.55);
+        backdrop-filter: blur(4px);
+        opacity: 0;
+        visibility: hidden;
+    }
+
+    .mobile-menu-panel {
+        @apply fixed top-0 right-0 z-9999999 h-full flex flex-col;
+        width: min(85vw, 420px);
+        transform: translateX(100%);
+        background: #fff;
+    }
+
+    .mobile-menu-close {
+        @apply absolute top-20 right-20 p-8 cursor-pointer bg-transparent border-none text-black;
+        transition: transform 0.3s ease;
+    }
+
+    .mobile-menu-close:hover {
+        transform: rotate(90deg);
+    }
+
+    .mobile-menu-logo {
+        @apply pt-24 pb-16 px-32;
+    }
+
+    .mobile-menu-logo img {
+        @apply h-32;
+    }
+
+    .mobile-menu-links {
+        @apply flex-1 flex flex-col gap-0 px-32 py-24 overflow-y-auto;
+    }
+
+    .mobile-menu-link {
+        @apply flex items-center gap-16 py-16 border-b border-border text-black no-underline;
+        transition: all 0.3s ease;
+    }
+
+    .mobile-menu-link:last-child {
+        border-bottom: none;
+    }
+
+    .mobile-menu-link:hover {
+        @apply pl-8;
+    }
+
+    .mobile-menu-link:hover .mobile-menu-link-index {
+        color: var(--color-brand);
+    }
+
+    .mobile-menu-link:hover .mobile-menu-link-label {
+        color: var(--color-brand);
+    }
+
+    .mobile-menu-link-index {
+        @apply text-xs font-medium;
+        color: var(--color-gray-500);
+        transition: color 0.3s ease;
+        min-width: 24px;
+    }
+
+    .mobile-menu-link-label {
+        @apply text-2xl font-medium capitalize;
+        transition: color 0.3s ease;
+    }
+
+    .mobile-menu-footer {
+        @apply px-32 py-24 border-t border-border;
+    }
+
+    .mobile-menu-footer-label {
+        @apply text-xs uppercase tracking-widest mb-12;
+        color: var(--color-gray-500);
+    }
+
+    .mobile-menu-socials {
+        @apply flex gap-20;
+    }
+
+    .mobile-menu-social-link {
+        @apply text-sm font-medium text-black no-underline;
+        transition: color 0.3s ease;
+    }
+
+    .mobile-menu-social-link:hover {
+        color: var(--color-brand);
+    }
+
+    /* ------------------- */
+    /* Back to top */
+
+    .back-to-top {
+        @apply fixed z-9999 size-50 backdrop-blur-md shadow-1 cursor-pointer grid place-items-center invisible opacity-0 p-0 rounded-full border-none right-30 bottom-30 transition-all duration-300 bg-white; 
+    }
+
+    .back-to-top__ring {
+        @apply absolute inset-0;
+    }
+
+    .back-to-top__icon {
+        @apply text-brand flex items-center justify-center transition-all duration-300;
+    }
+
+    /* ------------------- */
+}
+
+html {
+    scrollbar-width: thin;
+
+    &::-webkit-scrollbar {
+        width: 4px;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: #f1f1f1;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: #888;
+        border-radius: 10px;
     }
 }
 
@@ -644,4 +777,4 @@ html.lenis body {
     .process_card:nth-child(3)::after {
         top: 20px;
     }
-}
+} 

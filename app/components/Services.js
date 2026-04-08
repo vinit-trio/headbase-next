@@ -1,7 +1,33 @@
-import React from 'react'
-import SubTitle from './SubTitle'
+"use client";
+import React, { useEffect, useRef } from 'react'
+import Title from './Title'
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+
+if (typeof window !== 'undefined') {
+    gsap.registerPlugin(ScrollTrigger);
+}
 
 const Services = () => {
+    const sectionRef = useRef(null);
+
+    useEffect(() => {
+        let ctx = gsap.context(() => {
+            gsap.from(".service-card", {
+                y: 50,
+                opacity: 0,
+                duration: 0.8,
+                stagger: 0.2,
+                ease: "power2.out",
+                scrollTrigger: {
+                    trigger: sectionRef.current,
+                    start: "top 85%",
+                }
+            });
+        }, sectionRef);
+
+        return () => ctx.revert();
+    }, []);
 
     const data = [
         {
@@ -69,30 +95,24 @@ const Services = () => {
     ]
 
     return (
-        <section className="py-spc">
+        <section ref={sectionRef} className="py-spc">
             <div className="container">
-                <SubTitle classes="text-center" text={`What We Do <i>Best</i>`} description="End-to-end digital solutions tailored to your unique business needs." />
+                <Title classes="text-center" text={`What We Do <i>Best</i>`} description="End-to-end digital solutions tailored to your unique business needs." />
                 <div className="grid md:grid-cols-2 2xl:grid-cols-3 gap-16 3xl:gap-32">
                     {
                         data.map((item, i) => (
                             <div key={i}
-                                className="rounded-xl lg:rounded-3xl p-16 lg:p-28 border border-border shadow-1 flex flex-col gap-16 xl:gap-32 hover:border-brand transition-colors">
+                                className="service-card rounded-xl lg:rounded-3xl p-16 lg:p-28 border border-border shadow-1 flex flex-col gap-16 xl:gap-32 hover:border-brand transition-colors">
                                 <div className="border border-border p-10 sm:p-12 rounded-lg lg:rounded-2xl w-fit shadow-1">
                                     <img className="w-32 sm:w-40" src={item.icon} alt="" />
                                 </div>
                                 <div className="flex flex-col gap-8 xl:gap-16">
-                                    <h3 className="text-xl lg:text-2xl font-medium text-black">
-                                        {item.title}
-                                    </h3>
-                                    <p>
-                                        {item.description}
-                                    </p>
+                                    <h3 className="text-xl lg:text-2xl font-medium text-black">{item.title}</h3>
+                                    <p>{item.description}</p>
                                 </div>
                                 <ul className="flex gap-8 3xl:gap-16 flex-wrap mt-auto">
                                     {item.badges.map((badge, i) => (
-                                        <li key={i} className={`badge ${badge.color}`}>
-                                            {badge.text}
-                                        </li>
+                                        <li key={i} className={`badge ${badge.color}`}>{badge.text}</li>
                                     ))}
                                 </ul>
                             </div>

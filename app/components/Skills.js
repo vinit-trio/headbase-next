@@ -1,5 +1,5 @@
 import React from 'react'
-import SubTitle from './SubTitle'
+import Title from './Title'
 
 const Skills = () => {
 
@@ -10,7 +10,7 @@ const Skills = () => {
     return (
         <section className="py-spc text-center">
             <div className="container">
-                <SubTitle classes="text-center" text={`Technologies & <i>Expertise</i>`} description="We leverage the latest technologies to build scalable, performant, and future-proof digital solutions." />
+                <Title classes="text-center" text={`Technologies & <i>Expertise</i>`} description="We leverage the latest technologies to build scalable, performant, and future-proof digital solutions." />
                 <div className="expertise_wrap">
                     <div className="our_expertise grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5">
                         {

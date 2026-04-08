@@ -4,24 +4,22 @@ const Footer = () => {
     return (
         <footer className="relative py-spc border-t border-black/10 overflow-hidden">
             <div className="container">
-                <div className="grid sm:grid-cols-2 xl:grid-cols-4 gap-32 gap-y-40 sm:gap-y-80">
-                    <div>
+                <div className="flex flex-wrap 3xl:flex-nowrap gap-y-spc">
+                    <div className='pr-40 last:p-0 w-full xl:w-4/12 2xl:w-4/12 3xl:w-4/12'>
                         <div className="mb-32 xl:mb-64">
                             <img src="/images/logo.svg" alt="HeadBase" className="w-275" />
                         </div>
                         <div>
                             <h2 className="text-40 font-medium text-black">
-                                The agency <br />
-                                for <i className="font-semibold text-blue">impatient</i> <br />
-                                brands
+                                The agency <br className='hidden xl:block' /> for <i className="font-semibold text-blue">impatient</i> <br className='hidden xl:block' /> brands
                             </h2>
                         </div>
                     </div>
-                    <div className="flex flex-col gap-25 md:gap-35 3xl:gap-100 sm:not-xl:order-last">
+                    <div className="pr-40 last:p-0 w-1/2 md:w-3/12 xl:w-2/12 2xl:w-2/12 3xl:w-3/12 flex flex-col gap-25 md:gap-35 3xl:gap-100">
                         <div className="link_title font-medium text-2xl text-black">
                             Quick links
                         </div>
-                        <ul className="space-y-20">
+                        <ul className="space-y-10 3xl:space-y-20">
                             <li><a className="link hover:text-black" href="#">Services</a></li>
                             <li><a className="link hover:text-black" href="#">Work</a></li>
                             <li><a className="link hover:text-black" href="#">About</a></li>
@@ -29,11 +27,11 @@ const Footer = () => {
                             <li><a className="link hover:text-black" href="#">Career</a></li>
                         </ul>
                     </div>
-                    <div className="flex flex-col gap-25 md:gap-35 3xl:gap-100 sm:not-xl:order-last">
+                    <div className="pr-40 last:p-0 w-1/2 md:w-3/12 xl:w-2/12 2xl:w-2/12 3xl:w-3/12 flex flex-col gap-25 md:gap-35 3xl:gap-100">
                         <div className="link_title font-medium text-2xl text-black">
                             Services
                         </div>
-                        <ul className="space-y-20">
+                        <ul className="space-y-10 3xl:space-y-20">
                             <li><a className="link hover:text-black" href="#">Wordpress</a></li>
                             <li><a className="link hover:text-black" href="#">Shopify Store</a></li>
                             <li><a className="link hover:text-black" href="#">Web Design</a></li>
@@ -42,7 +40,7 @@ const Footer = () => {
                             <li><a className="link hover:text-black" href="#">App Design</a></li>
                         </ul>
                     </div>
-                    <div className="flex flex-col gap-25 md:gap-35 3xl:gap-74">
+                    <div className="pr-40 last:p-0 w-full md:w-6/12 xl:w-4/12 2xl:w-4/12 3xl:w-3/12 flex flex-col gap-25 md:gap-35 3xl:gap-74">
                         <p>
                             SH-403 Shiven Shoppers, Adajan DN,
                             Surat – 395009, Gujarat, India

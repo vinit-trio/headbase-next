@@ -1,5 +1,5 @@
 import React from 'react'
-import SubTitle from './SubTitle'
+import Title from './Title'
 import Button from './Button'
 import { ArrowRight } from 'lucide-react'
 
@@ -51,7 +51,7 @@ const Projects = () => {
     return (
         <section className="py-spc">
             <div className="container">
-                <SubTitle text={`Work That <i>Delivers Results</i>`} description="Real client challenges, clear solutions, and the impact created through design and technology." />
+                <Title text={`Work That <i>Delivers Results</i>`} description="Real client challenges, clear solutions, and the impact created through design and technology." />
                 <div className="grid md:grid-cols-2 gap-x-24 xl:gap-x-48 gap-y-40 xl:gap-y-80 mb-40 xl:mb-80">
                     {
                         projects.map((project, i) => (

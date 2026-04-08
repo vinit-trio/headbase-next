@@ -1,6 +1,6 @@
 'use client'
 import React from 'react';
-import SubTitle from './SubTitle';
+import Title from './Title';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import { Pagination } from 'swiper/modules';
@@ -31,7 +31,7 @@ const Industries = () => {
     return (
         <section className="py-spc bg-black text-white">
             <div className="container">
-                <SubTitle classes='white' text={`<i>Industries</i>`} description="We work across high-impact industries, combining deep domain knowledge with cutting-edge design." />
+                <Title classes='white' text={`<i>Industries</i>`} description="We work across high-impact industries, combining deep domain knowledge with cutting-edge design." />
             </div>
             <div
                 className="container 3xl:max-w-full 3xl:p-0 mask-[linear-gradient(90deg,#000_80%,transparent_calc(100%-16px))] 3xl:mask-none">
