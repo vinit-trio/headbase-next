@@ -12,21 +12,24 @@ const Services = () => {
     const sectionRef = useRef(null);
 
     useEffect(() => {
-        let ctx = gsap.context(() => {
-            gsap.from(".service-card", {
-                y: 50,
-                opacity: 0,
-                duration: 0.8,
-                stagger: 0.2,
-                ease: "power2.out",
-                scrollTrigger: {
-                    trigger: sectionRef.current,
-                    start: "top 85%",
-                }
+        gsap.registerPlugin(ScrollTrigger);
+
+        const ctx = gsap.context(() => {
+            gsap.utils.toArray(".service-card").forEach((card) => {
+                gsap.from(card, {
+                    opacity: 0,
+                    y: 100,
+                    ease: "power4.out",
+                    scrollTrigger: {
+                        trigger: card,
+                        start: "top 80%",
+                        toggleActions: "play none none none",
+                    },
+                });
             });
         }, sectionRef);
 
-        return () => ctx.revert();
+        return () => ctx.revert(); // cleanup (important)
     }, []);
 
     const data = [

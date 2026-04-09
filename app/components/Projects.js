@@ -2,7 +2,8 @@ import React, { useState, useEffect, useRef } from 'react'
 import { createPortal } from 'react-dom'
 import Title from './Title'
 import Button from './Button'
-import { ArrowRight } from 'lucide-react'
+import { ArrowRight, ArrowUpRight } from 'lucide-react'
+import Link from 'next/link'
 
 const Projects = () => {
     const cursorRef = useRef(null);
@@ -70,19 +71,19 @@ const Projects = () => {
     ]
 
     return (
-        <section className="py-spc relative">
+        <section className="py-spc relative overflow-hidden">
 
             {/* Teleport the cursor directly to the document body using createPortal */}
             {isMounted && createPortal(
                 <div
                     ref={cursorRef}
                     className="fixed top-0 left-0 z-9999 pointer-events-none"
-                    style={{willChange: 'transform',transition: 'none'}}
+                    style={{ willChange: 'transform', transition: 'none' }}
                 >
                     <div
-                        className={`flex items-center justify-center size-96 rounded-full bg-black/90 text-white text-[12px] font-medium backdrop-blur-sm transition-all duration-300 
-                            uppercase ${isHovering ? 'opacity-100 scale-100' : 'opacity-0 scale-0'}`} >
-                        Read more
+                        className={`flex items-center justify-center size-60 rounded-full bg-white/80 backdrop-blur-xs text-blue text-sm font-medium transition-all duration-300 
+                            uppercase border ${isHovering ? 'opacity-100 scale-100' : 'opacity-0 scale-0'}`} >
+                        <ArrowUpRight />
                     </div>
                 </div>,
                 document.body
@@ -93,9 +94,8 @@ const Projects = () => {
 
                 <div className="grid md:grid-cols-2 gap-x-24 xl:gap-x-48 gap-y-40 xl:gap-y-80 mb-40 xl:mb-80">
                     {projects.map((project, i) => (
-                        <div key={i} className="project_card group relative flex flex-col gap-8 3xl:gap-16" onMouseEnter={() => setIsHovering(true)} onMouseLeave={() => setIsHovering(false)}>
-                            <a href="work-details.html" className="absolute inset-0 z-1"><span className="sr-only">Project Details</span></a>
-                            <div className="image relative rounded-xl overflow-hidden aspect-[1.63/1] mb-4 xl:mb-8 group">
+                        <div key={i} className="project_card group relative flex flex-col gap-8 3xl:gap-16">
+                            <div className="image relative rounded-xl overflow-hidden aspect-[1.63/1] mb-4 xl:mb-8 group cursor-none" onMouseEnter={() => setIsHovering(true)} onMouseLeave={() => setIsHovering(false)}>
                                 <img src={project.image} alt="" className="absolute size-full inset-0 object-cover" />
                                 <div
                                     className="glass_effect absolute h-25 scale-200 w-full top-1/2 -translate-y-1/2 -left-full rotate-45 duration-1000 bg-white/30 group-hover:left-full!">
@@ -106,12 +106,12 @@ const Projects = () => {
                                     <div key={j} className={`badge ${badge.color}`}>{badge.text}</div>
                                 ))}
                             </div>
-                            <h3 className="text-xl xl:text-2xl text-black">{project.title}</h3>
+                            <Link href="/work-details"><h3 className="text-xl xl:text-2xl text-black">{project.title}</h3></Link>
                             <p>{project.description}</p>
                         </div>
                     ))}
                 </div>
-                <Button classes='mx-auto w-fit' text='View More Projects' variant='primary'><ArrowRight /></Button>
+                <Button link="#" classes='mx-auto w-fit' text='View More Projects' variant='primary'><ArrowRight /></Button>
             </div>
         </section>
     )
