@@ -34,8 +34,8 @@ const page = () => {
       {/* Hero section */}
       <Hero title={`We Design & Build <br /> <i>High-Performance</i><br />  Digital Products`}
         description="Transforming ideas into powerful digital experiences. We craft innovative solutions that drive business growth and redefine user engagement.">
-        <Button text="Explore our services" variant="primary" link="/services"><ArrowRight className='size-20' /></Button>
-        <Button text="Book a Free Consulation" variant="secondary" link="/contact"><Phone className='size-20' /></Button>
+        <Button text="Explore our services" variant="primary" link="/"><ArrowRight className='size-20' /></Button>
+        <Button text="Book a Free Consulation" variant="secondary" link="/"><Phone className='size-20' /></Button>
       </Hero>
 
       {/* Our Impact section */}

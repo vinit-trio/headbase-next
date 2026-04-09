@@ -34,9 +34,7 @@ const Hero = ({ title, description, children }) => {
             <p className="hero_ele max-w-816 mx-auto text-black">{description}</p>
           </div>
         </div>
-        <div className="overflow-hidden">
-          <div className="hero_ele relative w-fit mx-auto flex flex-wrap justify-center gap-8 xl:gap-16 pointer-events-auto">{children}</div>
-        </div>
+        <div className="hero_ele relative w-fit mx-auto flex flex-wrap justify-center gap-8 xl:gap-16 pointer-events-auto">{children}</div>
       </div>
     </section>
   )
